@@ -14,45 +14,44 @@ const Users = () => {
 
     const renderQualityName = (user) => {
         return user.qualities.map((quality) => (
-            <span className={`badge bg-${quality.color} m-1`}>{quality.name}</span>
+            <span key={quality._id} className={`badge bg-${quality.color} m-1`}>{quality.name}</span>
         ))
     }
 
+    console.log(users)
+
     const renderUser = (users) => {
         return users.map((user) => (
-            <>
-                <tr key={user.name + ' 1'}>
+                <tr key={user._id}>
 
-                    <td key={user.name}>
+                    <td>
                         {user.name}
                     </td>
 
-                    <td key={user.qualities[0]._id}>
+                    <td>
                         {renderQualityName(user)}
                     </td>
 
-                    <td key={user.profession.name}>
+                    <td>
                         {user.profession.name}
                     </td>
 
-                    <td key={user.completedMeetings}>
+                    <td>
                         {user.completedMeetings}
                     </td>
 
-                    <td key={user.rate}>
+                    <td>
                         {user.rate + '/5'}
                     </td>
 
-                    <td key={user.name + ' delete'}>
-                        <button key={user.name + ' deleteBtn'}
-                                className={'btn btn-danger'}
+                    <td>
+                        <button className={'btn btn-danger'}
                                 onClick={() => handleDelete(user._id)}
                         >
                             delete
                         </button>
                     </td>
                 </tr>
-            </>
         ))
     }
     return (
