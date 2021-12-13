@@ -1,32 +1,44 @@
-import React from "react";
-import User from "./user";
+import React, { useState } from 'react';
+import User from './user';
+import Pagination from './pagination';
+import { paginate } from '../utils/paginate';
 
-const Users = ( users ) => {
-    return (
-                <div className={"table-responsive"} key={'table'}>
-                    <table className="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Имя</th>
-                            <th scope="col">Качества</th>
-                            <th scope="col">Профессия</th>
-                            <th scope="col">Встрелитлся, раз</th>
-                            <th scope="col">Оценка</th>
-                            <th scope="col">Избранное</th>
-                            <th scope="col"> </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <User
-                            key={'users'}
-                            arr = {users}
-                            onDelete = {users.onDelete}
-                        />
-                        </tbody>
-                    </table>
-                </div>
-    )
-}
+const Users = (users) => {
+  const count = users.arr.length;
+  const pageSize = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (pageIndex) => {
+    setCurrentPage(pageIndex);
+  };
+
+  const userCrop = paginate(users.arr, currentPage, pageSize);
+  return (
+    <div className={'table-responsive'} key={'table'}>
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Имя</th>
+            <th scope="col">Качества</th>
+            <th scope="col">Профессия</th>
+            <th scope="col">Встрелитлся, раз</th>
+            <th scope="col">Оценка</th>
+            <th scope="col">Избранное</th>
+            <th scope="col"> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <User key={'users'} arr={userCrop} onDelete={users.onDelete} />
+        </tbody>
+      </table>
+      <Pagination
+        itemsCount={count}
+        pageSize={pageSize}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
+    </div>
+  );
+};
 
 // const Users = () => {
 //     const [users, setUsers] = useState(api.users.fetchAll())
@@ -110,4 +122,4 @@ const Users = ( users ) => {
 //     )
 // }
 
-export default Users
+export default Users;

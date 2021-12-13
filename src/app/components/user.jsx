@@ -1,51 +1,35 @@
-import React from "react";
-import Qualitie from "./qualitie";
-import BookMark from "./bookmark";
+import React from 'react';
+import Qualitie from './qualitie';
+import BookMark from './bookmark';
 
-const User = ( users ) => {
+const User = (users) => {
+  return users.arr.map((user) => (
+    <tr key={user._id}>
+      <td>{user.name}</td>
 
-    return users.arr.arr.map((user) => (
-            <tr key={user._id}>
+      <td>
+        {user.qualities.map((q) => (
+          <Qualitie {...q} key={q._id} />
+        ))}
+      </td>
 
-                <td>
-                    {user.name}
-                </td>
+      <td>{user.profession.name}</td>
 
-                <td>
-                    {user.qualities.map((q) => (
-                        <Qualitie {...q}/>
-                    ))}
-                </td>
+      <td>{user.completedMeetings}</td>
 
-                <td>
-                    {user.profession.name}
-                </td>
+      <td>{user.rate + '/5'}</td>
 
-                <td>
-                    {user.completedMeetings}
-                </td>
+      <td>
+        <BookMark status={false} />
+      </td>
 
-                <td>
-                    {user.rate + '/5'}
-                </td>
+      <td>
+        <button className={'btn btn-danger'} onClick={() => users.onDelete(user._id)}>
+          delete
+        </button>
+      </td>
+    </tr>
+  ));
+};
 
-                <td>
-                        <BookMark
-                            status={false}
-                        />
-                </td>
-
-                <td>
-                    <button
-                        className={'btn btn-danger'}
-                        onClick={() => users.onDelete(user._id)}
-                    >
-                        delete
-                    </button>
-                </td>
-            </tr>
-        )
-    )
-}
-
-export default User
+export default User;
