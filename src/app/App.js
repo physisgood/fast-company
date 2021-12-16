@@ -1,21 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Users from './components/users';
 import API from './api';
-import SearchStatus from './components/searchStatus';
 
 function App() {
-  const [users, setUsers] = useState(API.users.fetchAll());
+  const [users, setUsers] = useState();
+  useEffect(() => {
+    API.users.fetchAll().then((data) => setUsers(data));
+  }, []);
+  console.log('!!!!!!', users);
   const handleDelete = (userId) => {
-    setUsers((prevState) => prevState.filter((user) => user._id !== userId));
+    setUsers(users.filter((user) => user._id !== userId));
   };
-
-  return users.length > 0 ? (
-    <>
-      <SearchStatus length={users.length} />
-      <Users arr={users} onDelete={handleDelete} />
-    </>
-  ) : (
-    <span className={`badge bg-danger`}>Никто не тусанёт с тобой сегодня</span>
+  const handleToggleBookMark = (id) => {
+    setUsers(
+      users.map((user) => {
+        if (user._id === id) {
+          return { ...user, bookmark: !user.bookmark };
+        }
+        return user;
+      })
+    );
+    console.log(id);
+  };
+  return (
+    <div>
+      {users && (
+        <Users onDelete={handleDelete} onToggleBookMark={handleToggleBookMark} users={users} />
+      )}
+    </div>
   );
 }
 

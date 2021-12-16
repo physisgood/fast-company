@@ -1,23 +1,14 @@
-import React, { useState } from 'react';
-
-const BookMark = (statusNow) => {
-  const [status, setStatus] = useState(statusNow);
-  const handleClick = () => {
-    status ? setStatus(false) : setStatus(true);
-  };
-
-  const emptyHeart = (
-    <button onClick={handleClick}>
-      <i className={'bi bi-heart'} />
+import React from 'react';
+import PropTypes from 'prop-types';
+const BookMark = ({ status, ...rest }) => {
+  return (
+    <button {...rest}>
+      <i className={'bi bi-suit-heart' + (status ? '-fill' : '')} />
     </button>
   );
-  const fullHeart = (
-    <button onClick={handleClick}>
-      <i className={'bi bi-heart-fill'} />
-    </button>
-  );
-
-  return status ? emptyHeart : fullHeart;
+};
+BookMark.propTypes = {
+  status: PropTypes.bool,
 };
 
 export default BookMark;

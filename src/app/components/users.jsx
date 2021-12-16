@@ -1,125 +1,102 @@
-import React, { useState } from 'react';
-import User from './user';
-import Pagination from './pagination';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { paginate } from '../utils/paginate';
+import Pagination from './pagination';
+import User from './user';
+import GroupList from './group.list';
+import API from '../api';
+import SearchStatus from './searchStatus';
 
-const Users = (users) => {
-  const count = users.arr.length;
-  const pageSize = 4;
+const Users = ({ users: allUsers, ...rest }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const handlePageChange = (pageIndex) => {
-    setCurrentPage(pageIndex);
+  const [professions, setProfession] = useState();
+  const [selectedProf, setSelectedProf] = useState();
+  const pageSize = 4;
+  useEffect(() => {
+    API.professions.fetchAll().then((data) => setProfession(data));
+  }, []);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedProf]);
+
+  // console.log('professions', professions);
+  // console.log('rest', rest);
+  // console.log('allUsers', allUsers);
+
+  const handleProfessionSelect = (item) => {
+    setSelectedProf(item);
   };
 
-  const userCrop = paginate(users.arr, currentPage, pageSize);
+  const handlePageChange = (pageIndex) => {
+    setCurrentPage(pageIndex);
+    console.log('page: ', pageIndex);
+  };
+
+  const filteredUsers = selectedProf
+    ? allUsers.filter((user) => user.profession._id === selectedProf._id)
+    : allUsers;
+
+  console.log('selectedProf', selectedProf);
+  console.log('filteredUsers', filteredUsers);
+
+  const count = filteredUsers.length;
+
+  const usersCrop = paginate(filteredUsers, currentPage, pageSize);
+
+  const clearFilter = () => {
+    setSelectedProf();
+  };
+
   return (
-    <div className={'table-responsive'} key={'table'}>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Имя</th>
-            <th scope="col">Качества</th>
-            <th scope="col">Профессия</th>
-            <th scope="col">Встрелитлся, раз</th>
-            <th scope="col">Оценка</th>
-            <th scope="col">Избранное</th>
-            <th scope="col"> </th>
-          </tr>
-        </thead>
-        <tbody>
-          <User key={'users'} arr={userCrop} onDelete={users.onDelete} />
-        </tbody>
-      </table>
-      <Pagination
-        itemsCount={count}
-        pageSize={pageSize}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
+    <div className={'d-flex'}>
+      {professions && (
+        <div className="d-flex flex-column flex-shrink-0 p-3">
+          <GroupList
+            items={professions}
+            onItemSelect={handleProfessionSelect}
+            selectedItem={selectedProf}
+          />
+          <button className={'btn btn-secondary mt-2'} onClick={clearFilter}>
+            Очистить
+          </button>
+        </div>
+      )}
+      <div className={'d-flex flex-column'}>
+        <SearchStatus length={count} />
+        {count > 0 && (
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Имя</th>
+                <th scope="col">Качества</th>
+                <th scope="col">Провфессия</th>
+                <th scope="col">Встретился, раз</th>
+                <th scope="col">Оценка</th>
+                <th scope="col">Избранное</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              {usersCrop.map((user) => (
+                <User {...rest} {...user} key={user._id} />
+              ))}
+            </tbody>
+          </table>
+        )}
+        <div className="d-flex justify-content-center">
+          <Pagination
+            itemsCount={count}
+            pageSize={pageSize}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      </div>
     </div>
   );
 };
-
-// const Users = () => {
-//     const [users, setUsers] = useState(api.users.fetchAll())
-//
-//     const handleDelete = (userId) => {
-//         setUsers(prevState => prevState.filter(user => user._id !== userId))
-//     }
-//
-//     const renderPhrase = (number) => {
-//         return number > 4 || number === 1 ? 'человек тусанёт' : 'человека тусанут'
-//     }
-//
-//     const renderQualityName = (user) => {
-//         return user.qualities.map((quality) => (
-//             <span key={quality._id} className={`badge bg-${quality.color} m-1`}>{quality.name}</span>
-//         ))
-//     }
-//
-//     console.log(users)
-//
-//     const renderUser = (users) => {
-//         return users.map((user) => (
-//                 <tr key={user._id}>
-//
-//                     <td>
-//                         {user.name}
-//                     </td>
-//
-//                     <td>
-//                         {renderQualityName(user)}
-//                     </td>
-//
-//                     <td>
-//                         {user.profession.name}
-//                     </td>
-//
-//                     <td>
-//                         {user.completedMeetings}
-//                     </td>
-//
-//                     <td>
-//                         {user.rate + '/5'}
-//                     </td>
-//
-//                     <td>
-//                         <button className={'btn btn-danger'}
-//                                 onClick={() => handleDelete(user._id)}
-//                         >
-//                             delete
-//                         </button>
-//                     </td>
-//                 </tr>
-//         ))
-//     }
-//     return (
-//         users.length > 0 ?
-//             <>
-//                 <span className={`badge bg-primary`}>{users.length} {renderPhrase(users.length)} с тобой сегодня</span>
-//                 <div className={"table-responsive"}>
-//                     <table className="table">
-//                         <thead>
-//                         <tr>
-//                             <th scope="col">Имя</th>
-//                             <th scope="col">Качества</th>
-//                             <th scope="col">Профессия</th>
-//                             <th scope="col">Встрелитлся, раз</th>
-//                             <th scope="col">Оценка</th>
-//                             <th scope="col"> </th>
-//                         </tr>
-//                         </thead>
-//                         <tbody>
-//                         {renderUser(users)}
-//                         </tbody>
-//                     </table>
-//                 </div>
-//             </>
-//             :
-//             <>
-//                 <span className={`badge bg-danger`}>Никто не тусанёт с тобой сегодня</span>
-//             </>
-//     )
-// }
+Users.propTypes = {
+  users: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+};
 
 export default Users;
