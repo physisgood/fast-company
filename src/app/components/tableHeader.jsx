@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Arro from "./arrow";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
   const handleSort = (item) => {
@@ -9,6 +10,12 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
       onSort({ path: item, order: "asc" });
     }
   };
+
+  const renderContent = (column) => {
+    return columns[column].path === selectedSort.path
+        ? (columns[column].path ? <Arro selectedSort={selectedSort}/> : "")
+        : "";
+  };
     return <thead>
     <tr>
       {Object.keys(columns).map((column) => (
@@ -17,7 +24,8 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
               onClick={columns[column].path ? () => handleSort(columns[column].path) : undefined}
               {...{ role: columns[column].path && "button" }} scope="col"
           >
-            {columns[column].name}
+             {columns[column].name}
+            {renderContent(column)}
           </th>
       ))}
     </tr>
