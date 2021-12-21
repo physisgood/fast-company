@@ -22,12 +22,9 @@
 },
     "plugins": [
     "react",
-    "@typescript-eslint",
     "prettier"
 ],
     "rules": {
-    "require-jsdoc": "off",
-        "@typescript-eslint/ban-ts-comment": "off",
-        "@typescript-eslint/ban-types": "off"
+        "require-jsdoc": 0
 }
 }
