@@ -7,6 +7,7 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UsersTable from "./usersTable";
 import _ from "lodash";
+import SearchBar from "./searchBar";
 
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -90,6 +91,7 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count}/>
+                    <SearchBar />
                     {count > 0 && (
                         <UsersTable
                             users={usersCrop}
