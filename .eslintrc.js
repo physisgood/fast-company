@@ -28,3 +28,4 @@ module.exports = {
         ]
     }
 };
+/// * eslint-disable */ отключает eslint в файле
