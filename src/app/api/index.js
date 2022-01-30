@@ -7,5 +7,6 @@ const API = {
     professions,
     qualities,
     comments
+
 };
 export default API;

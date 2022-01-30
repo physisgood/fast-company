@@ -59,6 +59,7 @@ const users = [
         _id: "67rdca3eeb7f6fgeed471817",
         name: "Боб Келсо",
         email: "bobkelso@fastcompany.ru",
+        email: "bob007@tw.com",
         sex: "male",
         profession: professions.doctor,
         qualities: [qualities.buller],

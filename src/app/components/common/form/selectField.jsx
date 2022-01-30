@@ -5,6 +5,7 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
     const getInputClasses = () => {
         return "form-select" + (error ? " is-invalid" : "");
     };
+
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };
@@ -14,6 +15,7 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
         : options.map((option) => ({ name: option.name, value: option._id }));
     // console.log("optionsArray", optionsArray);
     // console.log("options", options);
+
 
  return (
         <div className="mb-4">
@@ -29,6 +31,7 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
                 {...rest}
             >
                 <option
+
                     value=""
                 >
                     {defaultOption}
@@ -61,3 +64,4 @@ SelectField.propTypes = {
 };
 
 export default React.memo(SelectField);
+

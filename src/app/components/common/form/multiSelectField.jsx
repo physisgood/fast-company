@@ -3,6 +3,7 @@ import Select from "react-select";
 import PropTypes from "prop-types";
 
 const MultiSelectField = ({ options, onChange, name, label, value, error, onSelect }) => {
+
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map((optionName) => ({ label: options[optionName].name, value: options[optionName]._id }))
         : options;
@@ -49,3 +50,4 @@ MultiSelectField.propTypes = {
 };
 
 export default React.memo(MultiSelectField);
+

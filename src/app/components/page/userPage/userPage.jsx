@@ -8,6 +8,7 @@ import MeetingsCard from "../../common/userPage/MeetingsCard";
 import CommentsList from "../../common/userPage/CommentsList";
 // import comments from "../../../api/fake.api/comments.api";
 
+
 const UserPage = ({ userId }) => {
     const [currentUser, setCurrentUser] = useState();
     useEffect(() => {
@@ -50,6 +51,7 @@ const UserPage = ({ userId }) => {
                             userId={userId}
                         />
                     </div>
+
                 </div>
             </div>
         );
@@ -58,6 +60,7 @@ const UserPage = ({ userId }) => {
         return <>
             {renderUser(currentUser)}
         </>;
+
 }
     return <h1>Loading...</h1>;
 };
@@ -68,30 +71,3 @@ UserPage.propTypes = {
 };
 
 export default UserPage;
-
-// <div className={"p-5"}>
-//     <h1>Имя: {user.name}</h1>
-//     <h2>Профессия: {user.profession.name}</h2>
-//     <h6>Качества:
-//         {user.qualities.map((qual) => (
-//             <Quality key={qual._id} {...qual} />
-//         ))}
-//     </h6>
-//     <h6>Завершенные свидания: {user.completedMeetings}</h6>
-//     <h2>Рейтинг пользователя: {user.rate}</h2>
-//     <div className={"btn btn-primary mt-5"}>
-//         <button
-//             onClick={handleReturn}
-//             className={"btn btn-primary"}
-//         >
-//             Все пользователи
-//         </button>
-//         {" / "}
-//         <Link
-//             to={`/users/${userId}/edit`}
-//             className={"btn btn-primary"}
-//         >
-//             Редактировать пользователя
-//         </Link>
-//     </div>
-// </div>
