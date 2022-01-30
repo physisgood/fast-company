@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const SelectField = ({ label, value, onChange, defaultOption, options, error, name }) => {
+const SelectField = ({ label, value, onChange, defaultOption, options, error, name, ...rest }) => {
     const getInputClasses = () => {
         return "form-select" + (error ? " is-invalid" : "");
     };
@@ -12,7 +12,10 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
 
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map((optionName) => ({ name: options[optionName].name, value: options[optionName]._id }))
-        : options;
+        : options.map((option) => ({ name: option.name, value: option._id }));
+    // console.log("optionsArray", optionsArray);
+    // console.log("options", options);
+
 
  return (
         <div className="mb-4">
@@ -25,9 +28,10 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
                 name={name}
                 value={value}
                 onChange={handleChange}
+                {...rest}
             >
                 <option
-                    enabled
+
                     value=""
                 >
                     {defaultOption}
@@ -59,4 +63,5 @@ SelectField.propTypes = {
     name: PropTypes.string
 };
 
-export default SelectField;
+export default React.memo(SelectField);
+

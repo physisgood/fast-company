@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const TextField = ({ label, type, name, value, onChange, error, defaultValue, onSelect }) => {
+const TextField = ({ label, type, name, value, onChange, error, defaultValue, onSelect, ...rest }) => {
+
     const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = ({ target }) => {
@@ -27,6 +28,8 @@ const TextField = ({ label, type, name, value, onChange, error, defaultValue, on
                     value={value}
                     onChange={handleChange}
                     className={getInputClasses()}
+                    {...rest}
+
                 />
                 {type === "password" && (
                     <button
@@ -53,7 +56,9 @@ TextField.propTypes = {
     onChange: PropTypes.func,
     error: PropTypes.string,
     defaultValue: PropTypes.string,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    autoFocus: PropTypes.bool
 };
 
-export default TextField;
+export default React.memo(TextField);
+
