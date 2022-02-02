@@ -8,7 +8,6 @@ import MeetingsCard from "../../common/userPage/MeetingsCard";
 import CommentsList from "../../common/userPage/CommentsList";
 // import comments from "../../../api/fake.api/comments.api";
 
-
 const UserPage = ({ userId }) => {
     const [currentUser, setCurrentUser] = useState();
     useEffect(() => {
@@ -60,7 +59,6 @@ const UserPage = ({ userId }) => {
         return <>
             {renderUser(currentUser)}
         </>;
-
 }
     return <h1>Loading...</h1>;
 };

@@ -4,6 +4,7 @@ import UserPage from "../components/page/userPage/userPage";
 import UsersListPage from "../components/page/usersListPage/usersListPage";
 // import { Route, Switch } from "react-router-dom";
 import EditPage from "../components/page/editPage/editPage";
+import UserProvider from "../hooks/useUsers";
 
 const Users = ({ match, location }) => {
     const userId = match.params.userId;
@@ -21,15 +22,9 @@ const Users = ({ match, location }) => {
         }
     };
     return <>
-        {/* <Switch> */}
-        {/*    <Route path={`/users/${userId}/:edit`} component={EditPage}/> */}
-        {/* </Switch> */}
-        {/* {userId */}
-        {/*    ? <UserPage userId={userId}/> */}
-        {/*    : <UsersListPage/> */}
-        {/*    } */}
-        { renderPage() }
-
+        <UserProvider>
+            { renderPage() }
+        </UserProvider>
     </>;
 };
 

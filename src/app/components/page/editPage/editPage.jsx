@@ -63,7 +63,6 @@ const EditUserPage = () => {
         if (data._id) setIsLoading(false);
     }, [data]);
 
-
     const validatorConfig = {
         email: {
             isRequired: {
@@ -154,4 +153,3 @@ const EditUserPage = () => {
 };
 
 export default EditUserPage;
-

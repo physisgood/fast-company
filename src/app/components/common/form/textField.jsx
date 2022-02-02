@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 const TextField = ({ label, type, name, value, onChange, error, defaultValue, onSelect, ...rest }) => {
-
     const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = ({ target }) => {
@@ -61,4 +60,3 @@ TextField.propTypes = {
 };
 
 export default React.memo(TextField);
-

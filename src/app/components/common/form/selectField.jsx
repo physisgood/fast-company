@@ -13,9 +13,6 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
     const optionsArray = !Array.isArray(options) && typeof (options) === "object"
         ? Object.keys(options).map((optionName) => ({ name: options[optionName].name, value: options[optionName]._id }))
         : options.map((option) => ({ name: option.name, value: option._id }));
-    // console.log("optionsArray", optionsArray);
-    // console.log("options", options);
-
 
  return (
         <div className="mb-4">
@@ -64,4 +61,3 @@ SelectField.propTypes = {
 };
 
 export default React.memo(SelectField);
-

@@ -45,4 +45,3 @@ RadioField.propTypes = {
 };
 
 export default React.memo(RadioField);
-
