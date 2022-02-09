@@ -4,18 +4,28 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Main from "./layouts/main";
 import Login from "./layouts/login";
 import Users from "./layouts/users";
-// import EditPage from "./components/page/editPage/editPage";
+import { ToastContainer } from "react-toastify";
+import { ProfessionProvider } from "./hooks/useProfession";
+import { QualityProvider } from "./hooks/useQuality";
+import AuthProvider from "./hooks/useAuth";
 
 function App() {
     return (
         <div>
-            <Navbar/>
-            <Switch>
-                <Route path={"/users/:userId?"} component={Users}/>
-                <Route path={"/login/:type?"} component={Login}/>
-                <Route path={"/"} exact component={Main}/>
-                <Redirect to={"/"}/>
-            </Switch>
+            <AuthProvider>
+                <Navbar/>
+                <QualityProvider>
+                    <ProfessionProvider>
+                        <Switch>
+                            <Route path={"/users/:userId?"} component={Users}/>
+                            <Route path={"/login/:type?"} component={Login}/>
+                            <Route path={"/"} exact component={Main}/>
+                            <Redirect to={"/"}/>
+                        </Switch>
+                    </ProfessionProvider>
+                </QualityProvider>
+            </AuthProvider>
+            <ToastContainer/>
         </div>
     );
 }
