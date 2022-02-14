@@ -2,50 +2,39 @@ import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
 
-const MultiSelectField = ({ options, onChange, name, label, value, error, onSelect }) => {
-    const optionsArray = !Array.isArray(options) && typeof (options) === "object"
-        ? Object.keys(options).map((optionName) => ({ label: options[optionName].name, value: options[optionName]._id }))
-        : options;
-
+const MultiSelectField = ({ options, onChange, name, label, defaultValue }) => {
+    const optionsArray =
+        !Array.isArray(options) && typeof options === "object"
+            ? Object.keys(options).map((optionName) => ({
+                  label: options[optionName].name,
+                  value: options[optionName]._id
+              }))
+            : options;
     const handleChange = (value) => {
         onChange({ name: name, value });
     };
-
-    const getInputClasses = () => {
-        return "basic-multi-select" + (error ? " is-invalid" : "");
-    };
-
     return (
-        <div
-            className={"mb-4"}
-            onSelect={onSelect}
-        >
-            <label className="form-label">
-                { label }
-            </label>
+        <div className="mb-4">
+            <label className="form-label">{label}</label>
             <Select
-                hasValue={true}
                 isMulti
                 closeMenuOnSelect={false}
-                value={value}
+                defaultValue={defaultValue}
                 options={optionsArray}
-                className={getInputClasses()}
-                classNamePrefix={"select"}
+                className="basic-multi-select"
+                classNamePrefix="select"
                 onChange={handleChange}
+                name={name}
             />
-            {error && <div className={"invalid-feedback"}>{error}</div>}
         </div>
     );
 };
-
 MultiSelectField.propTypes = {
-    onChange: PropTypes.func,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    onChange: PropTypes.func,
     name: PropTypes.string,
     label: PropTypes.string,
-    value: PropTypes.array,
-    error: PropTypes.string,
-    onSelect: PropTypes.func
+    defaultValue: PropTypes.array
 };
 
-export default React.memo(MultiSelectField);
+export default MultiSelectField;

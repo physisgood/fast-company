@@ -1,31 +1,36 @@
 import React from "react";
-import Navbar from "./components/ui/navBar";
-import { Redirect, Route, Switch } from "react-router-dom";
-import Main from "./layouts/main";
-import Login from "./layouts/login";
-import Users from "./layouts/users";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Users from "./layouts/users";
+import Login from "./layouts/login";
+import Main from "./layouts/main";
+import NavBar from "./components/ui/navBar";
 import { ProfessionProvider } from "./hooks/useProfession";
-import { QualityProvider } from "./hooks/useQuality";
+import { QualitiesProvider } from "./hooks/useQualities";
 import AuthProvider from "./hooks/useAuth";
 
 function App() {
     return (
         <div>
             <AuthProvider>
-                <Navbar/>
-                <QualityProvider>
+                <NavBar />
+
+                <QualitiesProvider>
                     <ProfessionProvider>
                         <Switch>
-                            <Route path={"/users/:userId?"} component={Users}/>
-                            <Route path={"/login/:type?"} component={Login}/>
-                            <Route path={"/"} exact component={Main}/>
-                            <Redirect to={"/"}/>
+                            <Route
+                                path="/users/:userId?/:edit?"
+                                component={Users}
+                            />
+                            <Route path="/login/:type?" component={Login} />
+                            <Route path="/" exact component={Main} />
+                            <Redirect to="/" />
                         </Switch>
                     </ProfessionProvider>
-                </QualityProvider>
+                </QualitiesProvider>
             </AuthProvider>
-            <ToastContainer/>
+
+            <ToastContainer />
         </div>
     );
 }

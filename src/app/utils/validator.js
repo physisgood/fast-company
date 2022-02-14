@@ -30,10 +30,6 @@ export function validator(data, config) {
                 statusValidate = data.length < config.value;
                 break;
             }
-            case "Select": {
-                statusValidate = data.length === 0;
-                break;
-            }
             default:
                 break;
         }

@@ -11,92 +11,84 @@ const LoginForm = () => {
         password: "",
         stayOn: false
     });
-    const [errors, setErrors] = useState({});
     const history = useHistory();
+    const { logIn } = useAuth();
+    const [errors, setErrors] = useState({});
+    const [enterError, setEnterError] = useState(null);
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
+        setEnterError(null);
     };
-
-    const { signIn } = useAuth();
 
     const validatorConfig = {
         email: {
             isRequired: {
                 message: "Электронная почта обязательна для заполнения"
-            },
-            isEmail: {
-                message: "email введён некорректно"
             }
         },
         password: {
             isRequired: {
                 message: "Пароль обязателен для заполнения"
-            },
-            isCapitalSymbol: {
-                message: "Пароль должен содержать хотя бы одну заглавную букву"
-            },
-            isContainDigit: {
-                message: "Пароль должен содержать хотя бы одну цифру"
-            },
-            min: {
-                message: "Пароль должен состоять минимум из 8 символов",
-                value: 8
             }
         }
     };
-
     useEffect(() => {
         validate();
     }, [data]);
-
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
-
     const isValid = Object.keys(errors).length === 0;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        console.log(data);
+
         try {
-            await signIn(data);
+            await logIn(data);
             history.push("/");
         } catch (error) {
-            setErrors(error);
+            setEnterError(error.message);
         }
     };
     return (
         <form onSubmit={handleSubmit}>
             <TextField
-                label={"Электронная почта"}
-                name={"email"}
-                onChange={handleChange}
+                label="Электронная почта"
+                name="email"
                 value={data.email}
+                onChange={handleChange}
                 error={errors.email}
             />
             <TextField
-                label={"Пароль"}
-                type={"password"}
-                name={"password"}
-                onChange={handleChange}
+                label="Пароль"
+                type="password"
+                name="password"
                 value={data.password}
+                onChange={handleChange}
                 error={errors.password}
             />
             <CheckBoxField
                 value={data.stayOn}
                 onChange={handleChange}
-                name={"stayOn"}
+                name="stayOn"
             >
                 Оставаться в системе
             </CheckBoxField>
-            <button disabled={!isValid} className={"btn btn-primary w-100 mx-auto"}>Submit</button>
+            {enterError && <p className="text-danger">{enterError}</p>}
+            <button
+                className="btn btn-primary w-100 mx-auto"
+                type="submit"
+                disabled={!isValid || enterError}
+            >
+                Submit
+            </button>
         </form>
     );
 };
