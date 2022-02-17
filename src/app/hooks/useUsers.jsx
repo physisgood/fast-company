@@ -28,16 +28,22 @@ const UserProvider = ({ children }) => {
             setUsers(content);
             setLoading(false);
         } catch (error) {
-            errorCatcher(error);
+            // errorCatcher(error);
         }
     }
-    function errorCatcher(error) {
-        const { message } = error.response.data;
-        setError(message);
-        setLoading(false);
+    // function errorCatcher(error) {
+    //     const { message } = error.response.data;
+    //     setError(message);
+    //     setLoading(false);
+    // }
+
+    function getUserById(userId) {
+        return users.find((user) => {
+            return user._id === userId;
+        });
     }
     return (
-        <UserContext.Provider value={{ users }}>
+        <UserContext.Provider value={{ users, getUserById }}>
             {!isLoading ? children : "Loading..."}
         </UserContext.Provider>
     );
